@@ -29,6 +29,21 @@ skills/
 
 ## Using a skill
 
+### Install and update with `gh skill` (recommended)
+
+This repo is published as a [`gh skill`](https://github.com/cli/cli) source (GitHub CLI ≥ 2.90.0, `agent-skills` topic). It handles per-client placement and update tracking for you:
+
+```sh
+gh skill install carefreelife98/carefree-skills <skill-name>              # install
+gh skill install carefreelife98/carefree-skills <skill-name> --agent claude-code --scope user  # for a specific client
+gh skill update <skill-name>                                              # check/apply updates
+gh skill install carefreelife98/carefree-skills <skill-name> --pin v0.1.0 # pin a version
+```
+
+`--agent` accepts `claude-code`, `codex`, `gemini-cli`, `cursor`, and many more — run `gh skill install --help` for the full list. Without `--agent`, `gh skill install` prompts interactively.
+
+### Manual install (no `gh` CLI)
+
 Symlink (or copy) a skill directory into whichever client you're using. Verified paths, personal/global vs project-scoped:
 
 | Client | Personal/global | Project |
@@ -50,7 +65,7 @@ Claude Code uses its own convention instead:
 ln -s "$(pwd)/skills/<skill-name>" ~/.claude/skills/<skill-name>
 ```
 
-These paths can change as clients evolve — check the linked official docs if a skill doesn't load.
+A manual symlink stays live with every local file edit (handy for developing a skill in this repo), but `gh skill update` won't track it — it only tracks skills it installed itself. These paths can change as clients evolve — check the linked official docs if a skill doesn't load.
 
 ## Adding a skill
 

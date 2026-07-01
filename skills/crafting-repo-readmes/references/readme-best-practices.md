@@ -22,7 +22,16 @@ Section order and content guidance, based on the [standard-readme spec](https://
 
 Not every section applies to every project — this is a menu driven by the project-type classification, not a checklist to fill unconditionally. A CLI tool's "Usage" section should show command invocations; a library's should show import + function call; a web app's should point at install → run dev server → open browser.
 
-**Agent skill / plugin collection repos** (flagged by the signal table in `repo-analysis.md`) need a different Usage section: a per-client installation table, not generic prose. Naming a client ("works with X, Y, Z") without verifying how that client actually discovers a local skill is the same kind of unverified claim this skill exists to avoid elsewhere (manifests, license) — don't hand-wave it as "check your client's docs." Verified as of this writing:
+**Agent skill / plugin collection repos** (flagged by the signal table in `repo-analysis.md`) need a different Usage section: real installation instructions, not generic prose. Naming a client ("works with X, Y, Z") without verifying how that client actually discovers a local skill is the same kind of unverified claim this skill exists to avoid elsewhere (manifests, license) — don't hand-wave it as "check your client's docs."
+
+Check first whether `gh skill` (GitHub CLI ≥ 2.90.0) applies — if the repo has the `agent-skills` topic or a tagged release, that's the standard, officially-tracked way to install and update:
+
+```sh
+gh skill install <owner>/<repo> <skill-name>
+gh skill update <skill-name>
+```
+
+Always also give the manual per-client paths as a fallback (for users without `gh`, or the repo hasn't published via `gh skill` yet). Verified as of this writing:
 
 | Client | Personal/global | Project |
 |---|---|---|
