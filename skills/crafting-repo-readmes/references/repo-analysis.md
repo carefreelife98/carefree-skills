@@ -46,9 +46,17 @@ Top 2-3 levels, excluding `node_modules/`, `.git/`, `vendor/`, `dist/`, `build/`
 
 Grep for `process.env.`, `os.environ`, `os.Getenv(`, `ENV[` etc. across source. Cross-reference with any `.env.example` file. These become the README's configuration section, if any exist.
 
-## 7. Existing docs
+## 7. Existing docs & community health files
 
-`docs/`, `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `SECURITY.md`, wiki links in the manifest. Read them — they often contain the real usage detail that belongs in the README, and contributing/license sections should link to them if they exist rather than duplicate their content.
+`docs/`, wiki links in the manifest, and GitHub's standard [community health files](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/creating-a-default-community-health-file): `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `SECURITY.md`, `SUPPORT.md`, `GOVERNANCE.md`, `FUNDING.yml`, `.github/ISSUE_TEMPLATE/`, `.github/PULL_REQUEST_TEMPLATE.md` (also check the org-wide `.github` repo if this one doesn't have them locally). Read whichever exist — they often contain the real usage detail that belongs in the README, and the README's contributing/license sections should link to them rather than duplicate their content. Note which ones are *absent* too: for a public-facing OSS repo, that's worth mentioning to the user at the approval gate (see `readme-best-practices.md`'s Companion artifacts section) — but don't create them unasked.
+
+## 7a. Security posture (presence only)
+
+Check for `SECURITY.md`, `.github/dependabot.yml` / `renovate.json`, and whether CI config references required status checks. This is a lightweight presence check, not a security audit — don't attempt to reproduce a full tool like OpenSSF Scorecard; just note what exists so the README (or the companion-artifacts note) can mention it accurately.
+
+## 7b. Commit rationale (optional, use with care)
+
+If you need "why was this built this way" context for the Overview section and the code/docs alone don't explain it, skim `git log` on the key files identified in step 3. Only use rationale that's **explicitly stated** in a commit message or PR description. If nothing explicit turns up, don't infer or guess a rationale from sparse commit messages — leave the "why" out rather than fabricating one. This step is optional and repo-dependent; skip it for repos where the code is self-explanatory.
 
 ## 8. Package registry metadata (if published)
 
