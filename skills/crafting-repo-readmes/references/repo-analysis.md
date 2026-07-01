@@ -93,5 +93,6 @@ Use these signals to classify the project — this determines which README secti
 | `*.podspec`, `Podfile`, `*.xcodeproj` | iOS app/library |
 | `AndroidManifest.xml`, `build.gradle` with Android plugin | Android app |
 | No `main`/`bin`/entry point, mostly `.md` files | Documentation-only repo |
+| Repo name matches the owner's GitHub username (e.g. `octocat/octocat`) | GitHub profile README — special case, renders on the owner's GitHub profile page rather than functioning as project docs. See the profile-README note in `readme-best-practices.md` before applying the standard project template. |
 
 A repo can match more than one row (e.g. a monorepo containing a Next.js app and a Cloudflare Worker) — note all that apply rather than forcing a single label.

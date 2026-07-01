@@ -49,6 +49,28 @@ Use [shields.io](https://shields.io) badges. Only include ones backed by somethi
 
 Prefer badges that stay accurate automatically (build status, license, latest version) over hardcoded numbers (star counts, download counts) that go stale the day after the README is written.
 
+### Tech stack badges
+
+A row of tech-stack icons ("Built with...") near the top is a common pattern the badges above don't cover. It's not tied to a manifest field the way a version badge is, but it's still backed by real analysis, not vibes — only include languages/frameworks/tools you actually confirmed during fact-gathering (the manifest, the signal-table classification), not a generic list of things the project *might* use.
+
+Two standard approaches — pick one, don't mix both in the same README:
+
+- **[skillicons.dev](https://skillicons.dev)** — one URL renders a full icon row, no per-badge construction needed:
+
+  ```markdown
+  [![Tech stack](https://skillicons.dev/icons?i=js,ts,react,node)](https://skillicons.dev)
+  ```
+
+  MIT-licensed. Icon slugs and options (`&theme=light|dark`, `&perline=`) are listed on the site.
+
+- **shields.io + [simple-icons](https://simple-icons.org)** — more control per badge, matches the style of the other badges in this section:
+
+  ```markdown
+  ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)
+  ```
+
+  Over 2,000 brand icons are natively supported; find slugs on [simple-icons.org](https://simple-icons.org).
+
 ## Table of contents
 
 Only for READMEs over ~100 lines. Link every top-level section; nest sub-sections only if the reader would actually navigate to them directly.
@@ -162,6 +184,16 @@ GitHub renders more than plain CommonMark. Use these where they genuinely help �
 
 <SPDX license name>, see [LICENSE](LICENSE).
 ```
+
+## Profile README repos (special case)
+
+If `repo-analysis.md`'s signal table flagged this as a GitHub profile README (repo name == owner's username), the standard project template above doesn't apply — there's no install/usage/API/testing/license to document, since this content renders on the owner's GitHub profile page, not as project docs. Appropriate content instead: a short intro, the tech-stack badges above, and (only if the user wants them) personal-activity widgets that are standard for this specific context but would look out of place on a real project README:
+
+- **Stats/streak cards** — [github-readme-stats](https://github.com/anuraghazra/github-readme-stats), [github-readme-streak-stats](https://github.com/DenverCoder1/github-readme-streak-stats) — embed as an `<img src="...">` pointing at the hosted generator, parameterized with the owner's username.
+- **Typing animation** — [readme-typing-svg](https://github.com/DenverCoder1/readme-typing-svg) for an animated intro line.
+- **Contribution snake animation** — [platane/snk](https://github.com/Platane/snk) — note this one needs a scheduled GitHub Action in the repo to keep the generated SVG updated, which is a bigger change than a README edit. Mention it as an option; don't wire up the workflow file without being asked, same as any other companion artifact.
+
+Don't apply any of this section to a normal project repo just because it seems fun — a library's README showing the maintainer's commit streak or contribution snake doesn't serve the reader trying to install and use the project.
 
 ## Self-verification before presenting
 
