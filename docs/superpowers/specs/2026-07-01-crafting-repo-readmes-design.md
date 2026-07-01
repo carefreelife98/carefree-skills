@@ -34,11 +34,12 @@ This mirrors the "reference skill with reusable tool" pattern (see `superpowers:
 
 ## Workflow
 
-1. **Resolve input.**
+1. **Resolve input.** The skill accepts either a git URL *or* an existing local path — whichever the user already has.
+   - Local path → analyze in place, no clone. If it's a git checkout, run a read-only `git status` / `git fetch --dry-run` to note uncommitted changes or being behind `origin` in the draft's context (informational only — never auto-pull, never discard local state).
    - GitHub URL → `gh repo clone <owner>/<repo> -- --depth 1` into a scratch dir. `gh` is already authenticated with `repo` scope, so this works for public *and* private repos without extra setup.
    - Non-GitHub git URL → `git clone --depth 1 <url>` fallback. Private-repo access here depends on the user's existing SSH keys/credential helper — the skill does not configure auth itself.
-   - Local path → analyze in place, no clone.
    - Clone/auth failure → report the actual error (permission denied / not found / not authenticated) and stop. Suggest `gh auth login` or checking SSH access. No silent fallback, no guessing.
+   - The skill does **not** search the filesystem for an existing local clone matching a given URL — that requires scanning many directories, comparing `.git/config` remotes, and guessing which of possibly several local copies is authoritative. If the user already has a local copy, they pass its path directly instead of the URL.
 
 2. **Gather facts.** Run `scripts/gather-facts.sh` against the checked-out tree: package manifests (any language), top-level directory structure, largest source files, test file counts, CI config presence, license file, referenced env vars, entry-point candidates.
 
