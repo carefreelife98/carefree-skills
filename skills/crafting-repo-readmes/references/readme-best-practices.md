@@ -163,6 +163,25 @@ GitHub renders more than plain CommonMark. Use these where they genuinely help �
 <SPDX license name>, see [LICENSE](LICENSE).
 ```
 
+## Self-verification before presenting
+
+Run this before showing the draft, not after — these are the checks a baseline agent tends to invent ad hoc for one of them (link resolution) and skip entirely for the rest:
+
+1. **Internal links/headings resolve.** Every `[text](#anchor)` and `[text](path#anchor)` in the draft must point to a heading or file that actually exists in the repo. Slugify each heading the way GitHub does (lowercase, spaces to hyphens, punctuation stripped) and check the link matches.
+2. **External URLs and badges are live.** Every shields.io badge, external link, and referenced workflow/file URL should actually resolve (a quick `curl -Is <url> | head -1` per unique URL is enough — check for a 2xx/3xx status).
+3. **Code examples run.** Any Usage/Install code block should be at minimum syntax-valid and, where practical, actually executed against the repo to confirm it doesn't error.
+4. **Code output matches what's documented**, where feasible to check — if the draft claims a command prints something specific, verify that's what it actually prints rather than inventing plausible-looking output.
+
+Fix anything that fails before moving on. Don't ship a draft with unresolved links because "it's probably fine."
+
+## Completeness gate
+
+Before presenting, confirm the draft clearly answers GitHub's [five core questions](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes) a README should communicate: what the project does, why it's useful, how to get started, where to get help, and who maintains it. If one of these isn't answered anywhere in the draft, that's a gap to fix, not a section to skip past.
+
+## Companion artifacts
+
+GitHub defines a standard set of ["community health files"](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/creating-a-default-community-health-file) beyond the README: `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `SECURITY.md`, `SUPPORT.md`, `GOVERNANCE.md`, `FUNDING.yml`, and `.github/ISSUE_TEMPLATE/`. For a public-facing OSS repo, note at the approval gate which of these are present vs. missing (you gathered this in `repo-analysis.md` step 7) — it's useful, real information. Do **not** auto-generate any of them; mention the gap and let the user decide whether it's worth filling. Skip this note entirely for personal/internal repos where community-contribution infrastructure isn't relevant.
+
 ## Common mistakes to avoid
 
 - Wall-of-text paragraphs with no headers/bullets/code blocks
@@ -170,3 +189,6 @@ GitHub renders more than plain CommonMark. Use these where they genuinely help �
 - Copying an existing README's structure wholesale instead of rebuilding it from what the analysis actually found
 - Full development/contributor build instructions at the top, scaring off users who just want to install the package — put those in `CONTRIBUTING.md` or near the bottom
 - An architecture diagram for a project too small to need one
+- Presenting a draft without checking its links/badges/code examples actually work
+- Inferring a "why" rationale from sparse commit messages instead of leaving it out when nothing explicit was stated
+- Auto-creating CONTRIBUTING.md, issue templates, or other community health files that weren't asked for

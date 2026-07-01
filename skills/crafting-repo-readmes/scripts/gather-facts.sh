@@ -53,10 +53,18 @@ grep -rEho \
   --include='*.js' --include='*.ts' --include='*.py' --include='*.go' --include='*.rb' \
   . 2>/dev/null | sort -u | head -50
 
-section "Docs already present"
+section "Community health files"
 find . -maxdepth 2 \
-  \( -iname 'contributing*' -o -iname 'code_of_conduct*' -o -iname 'security.md' -o -iname 'docs' \) \
+  \( -iname 'contributing*' -o -iname 'code_of_conduct*' -o -iname 'security.md' \
+     -o -iname 'support.md' -o -iname 'governance.md' -o -iname 'funding.yml' -o -iname 'docs' \) \
   2>/dev/null
+find .github -maxdepth 1 -type d -iname 'ISSUE_TEMPLATE' 2>/dev/null
+find .github -maxdepth 1 -iname 'PULL_REQUEST_TEMPLATE.md' 2>/dev/null
+
+section "Security posture (presence only)"
+for f in .github/dependabot.yml .github/dependabot.yaml renovate.json .github/renovate.json; do
+  [ -e "$f" ] && echo "found: $f"
+done
 
 section "Language breakdown"
 if command -v tokei >/dev/null 2>&1; then
