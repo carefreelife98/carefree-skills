@@ -1,6 +1,7 @@
 ---
 name: crafting-repo-readmes
 description: Use when asked to write, rewrite, or improve a README.md for a git repository given a URL or local path, or to systematically analyze and document a codebase for external readers. Also applies when a repo's README is stale, thin, auto-generated boilerplate, or missing entirely.
+license: MIT
 metadata:
   author: carefreelife98
 ---

@@ -72,4 +72,4 @@ These paths can change as clients evolve — check the linked official docs if a
 
 ## License
 
-Not yet set.
+MIT, see [LICENSE](LICENSE).
