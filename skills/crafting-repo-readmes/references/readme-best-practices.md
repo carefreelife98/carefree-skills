@@ -71,6 +71,17 @@ Two standard approaches — pick one, don't mix both in the same README:
 
   Over 2,000 brand icons are natively supported; find slugs on [simple-icons.org](https://simple-icons.org).
 
+**Group by layer once the list gets long or spans distinct layers.** A handful of badges for one layer (e.g. just frontend) reads fine as a single flat row. Once the confirmed stack spans clearly distinct layers — frontend, backend, database, infra/tooling — dumping them all in one undifferentiated row makes the reader do the categorization work themselves. Group with sub-labels instead:
+
+```markdown
+**Frontend:** ![React](...) ![Next.js](...)
+**Backend:** ![NestJS](...) ![Node.js](...)
+**Database:** ![PostgreSQL](...) ![Redis](...) ![Prisma](...)
+**Infra:** ![Docker](...) ![Turborepo](...) ![pnpm](...)
+```
+
+A rough trigger: more than ~8 badges, or badges spanning 3+ layers — group them. Fewer than that, or all one layer, a flat row is simpler and fine.
+
 ## Table of contents
 
 Only for READMEs over ~100 lines. Link every top-level section; nest sub-sections only if the reader would actually navigate to them directly.
