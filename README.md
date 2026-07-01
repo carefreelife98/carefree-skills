@@ -29,13 +29,28 @@ skills/
 
 ## Using a skill
 
-Where a client looks for local skills varies. For Claude Code, symlink (or copy) a skill directory into your personal skills folder:
+Symlink (or copy) a skill directory into whichever client you're using. Verified paths, personal/global vs project-scoped:
+
+| Client | Personal/global | Project |
+|---|---|---|
+| Claude Code | `~/.claude/skills/<name>/SKILL.md` | `.claude/skills/<name>/SKILL.md` |
+| Codex CLI | `~/.agents/skills/<name>/SKILL.md` | `.agents/skills/<name>/SKILL.md` |
+| Gemini CLI | `~/.gemini/skills/` or `~/.agents/skills/` | `.gemini/skills/` or `.agents/skills/` |
+| Cursor | `~/.cursor/skills/` or `~/.agents/skills/` | `.cursor/skills/` or `.agents/skills/` |
+
+`.agents/skills/` (and its `~/.agents/skills/` global form) is a shared convention across Codex CLI, Gemini CLI, and Cursor — one symlink there covers three clients at once:
+
+```sh
+ln -s "$(pwd)/skills/<skill-name>" ~/.agents/skills/<skill-name>
+```
+
+Claude Code uses its own convention instead:
 
 ```sh
 ln -s "$(pwd)/skills/<skill-name>" ~/.claude/skills/<skill-name>
 ```
 
-Check your client's docs for where it discovers local Agent Skills.
+These paths can change as clients evolve — check the linked official docs if a skill doesn't load.
 
 ## Adding a skill
 

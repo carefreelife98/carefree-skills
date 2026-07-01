@@ -22,6 +22,17 @@ Section order and content guidance, based on the [standard-readme spec](https://
 
 Not every section applies to every project — this is a menu driven by the project-type classification, not a checklist to fill unconditionally. A CLI tool's "Usage" section should show command invocations; a library's should show import + function call; a web app's should point at install → run dev server → open browser.
 
+**Agent skill / plugin collection repos** (flagged by the signal table in `repo-analysis.md`) need a different Usage section: a per-client installation table, not generic prose. Naming a client ("works with X, Y, Z") without verifying how that client actually discovers a local skill is the same kind of unverified claim this skill exists to avoid elsewhere (manifests, license) — don't hand-wave it as "check your client's docs." Verified as of this writing:
+
+| Client | Personal/global | Project |
+|---|---|---|
+| Claude Code | `~/.claude/skills/<name>/SKILL.md` | `.claude/skills/<name>/SKILL.md` |
+| Codex CLI | `~/.agents/skills/<name>/SKILL.md` | `.agents/skills/<name>/SKILL.md` |
+| Gemini CLI | `~/.gemini/skills/` or `~/.agents/skills/` | `.gemini/skills/` or `.agents/skills/` |
+| Cursor | `~/.cursor/skills/` or `~/.agents/skills/` | `.cursor/skills/` or `.agents/skills/` |
+
+`.agents/skills/` (and its `~/.agents/skills/` global form) is a shared convention across Codex CLI, Gemini CLI, and Cursor — one symlink there covers three clients at once. Claude Code uses its own `.claude/skills/` convention. These paths change as clients evolve — re-verify against each client's current official docs rather than trusting this table indefinitely, and if a named client's path can't be confirmed from an official source, say so explicitly instead of guessing.
+
 ## Opening statement
 
 The first two lines carry the most weight. They must answer, in order: what is this (name + category), why is it different (the actual differentiator, not marketing fluff), who is it for. Write this last, after the analysis is done — guessing it up front produces generic filler.
@@ -55,6 +66,50 @@ flowchart LR
     Queue --> Worker
 ```
 ````
+
+## GitHub-specific Markdown features
+
+GitHub renders more than plain CommonMark. Use these where they genuinely help — not as decoration — since overusing any of them makes a README noisier, not better.
+
+- **Alert callouts** — the standard way to flag a note/tip/warning inline, more visible than a plain bold sentence:
+
+  ```markdown
+  > [!NOTE]
+  > Useful context that doesn't fit the surrounding prose.
+
+  > [!WARNING]
+  > Something that will break if ignored.
+  ```
+
+  Valid types: `NOTE`, `TIP`, `IMPORTANT`, `WARNING`, `CAUTION`. Use sparingly — one or two per README, for things that would actually cause a reader to fail (a required env var, a breaking-change caveat), not general commentary.
+
+- **`<details><summary>` collapsible sections** — for content worth including but not worth showing by default (full CLI flag reference, a long changelog excerpt, alternative install methods):
+
+  ```markdown
+  <details>
+  <summary>All CLI flags</summary>
+
+  | Flag | Description |
+  |---|---|
+  | `--foo` | ... |
+
+  </details>
+  ```
+
+- **Dark/light adaptive images** — for a logo or diagram that needs to stay legible in both GitHub themes:
+
+  ```markdown
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg">
+    <img alt="project logo" src="assets/logo-light.svg" width="400">
+  </picture>
+  ```
+
+  Only use this when a real logo/diagram asset exists in the repo — don't reference an image path you haven't verified exists.
+
+- **Task lists** (`- [ ]` / `- [x]`) — for a roadmap or setup checklist, not for content that isn't actually a checklist.
+- **Footnotes** (`text[^1]` + `[^1]: note`) — for an aside that would break the flow of a sentence if inlined.
+- **"Back to top" anchors** — for a long README with a TOC, a `[↑ back to top](#readme-top)`-style link at the end of major sections helps navigation; skip it on short READMEs where it's just noise.
 
 ## Copy-paste template
 
