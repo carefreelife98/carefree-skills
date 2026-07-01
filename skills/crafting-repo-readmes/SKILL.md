@@ -21,7 +21,7 @@ Given a git URL or local path, gather real facts about the repository before wri
 
 1. **Resolve input.** Accept either a git URL or an existing local path.
    - Local path → analyze in place, no clone. If it's a git checkout, run `git status --short` and `git fetch --dry-run` (read-only) and note anything relevant (uncommitted changes, behind `origin`) in your own context — never auto-pull, never discard local state.
-   - GitHub URL → `gh repo clone <owner>/<repo> -- --depth 1 <scratch-dir>`. Prefer this over plain `git clone` for GitHub URLs specifically: it uses your existing `gh` auth and works for **public and private repos alike**, whereas a plain HTTPS `git clone` fails on private repos without a credential helper already configured.
+   - GitHub URL → `gh repo clone <owner>/<repo> <scratch-dir> -- --depth 1` (directory comes before `--`, git flags after — `gh repo clone --help` confirms the order). Prefer this over plain `git clone` for GitHub URLs specifically: it uses your existing `gh` auth and works for **public and private repos alike**, whereas a plain HTTPS `git clone` fails on private repos without a credential helper already configured.
    - Non-GitHub git URL → `git clone --depth 1 <url> <scratch-dir>` (private-repo access here depends on the user's own SSH keys/credential helper).
    - Clone/auth failure → report the actual error (permission denied / not found / not authenticated) and stop. Suggest `gh auth login` or checking SSH access. Do not retry with a workaround, do not guess a different URL, do not fall back to writing a README from the name alone.
    - Do not search the filesystem for a pre-existing local clone matching a URL — if the user has one, they'll give you the path directly.
@@ -56,7 +56,7 @@ Given a git URL or local path, gather real facts about the repository before wri
 
 | Step | Tool/command |
 |---|---|
-| Clone (GitHub) | `gh repo clone <owner>/<repo> -- --depth 1 <dir>` |
+| Clone (GitHub) | `gh repo clone <owner>/<repo> <dir> -- --depth 1` |
 | Clone (other host) | `git clone --depth 1 <url> <dir>` |
 | Local checkout status | `git status --short`, `git fetch --dry-run` |
 | Fact-gathering | `references/repo-analysis.md`, `scripts/gather-facts.sh <dir>` |
