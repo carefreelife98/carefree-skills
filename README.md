@@ -1,6 +1,18 @@
 # carefree-skills
 
-A collection of portable [Agent Skills](https://agentskills.io) — reusable capabilities for AI coding agents (Claude Code, Codex CLI, Gemini CLI, Cursor, and other [agentskills.io](https://agentskills.io)-compatible clients).
+A personal collection of portable [Agent Skills](https://agentskills.io) — reusable capabilities that work across AI coding agents (Claude Code, Codex CLI, Gemini CLI, Cursor, and any other agentskills.io-compatible client).
+
+## Highlights
+
+- Follows the open [agentskills.io](https://agentskills.io/specification) format — not locked to one vendor or tool
+- Skills ship with their own polyglot fact-gathering references and helper scripts, not just prose instructions
+- Built test-driven: each skill is validated with a baseline (RED) run without it, a verified (GREEN) run with it, and a pressure-tested (REFACTOR) pass — see `docs/superpowers/specs/`
+
+## Skills in this repo
+
+| Skill | Description |
+|---|---|
+| [`crafting-repo-readmes`](skills/crafting-repo-readmes) | Given a git URL or local path, systematically analyzes a repository and drafts a README — always stopping for approval before writing anything. |
 
 ## Structure
 
@@ -14,6 +26,16 @@ skills/
     references/       # optional: extra docs loaded on demand
     assets/           # optional: templates, static resources
 ```
+
+## Using a skill
+
+Where a client looks for local skills varies. For Claude Code, symlink (or copy) a skill directory into your personal skills folder:
+
+```sh
+ln -s "$(pwd)/skills/<skill-name>" ~/.claude/skills/<skill-name>
+```
+
+Check your client's docs for where it discovers local Agent Skills.
 
 ## Adding a skill
 
@@ -32,3 +54,7 @@ skills/
    ```bash
    skills-ref validate ./skills/<skill-name>
    ```
+
+## License
+
+Not yet set.
