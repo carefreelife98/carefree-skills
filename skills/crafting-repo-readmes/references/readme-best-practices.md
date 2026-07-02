@@ -78,18 +78,46 @@ Two standard approaches — pick one, don't mix both in the same README:
   ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)
   ```
 
-  Over 2,000 brand icons are natively supported; find slugs on [simple-icons.org](https://simple-icons.org).
+  Over 2,000 brand icons are natively supported; find slugs on [simple-icons.org](https://simple-icons.org). `style=for-the-badge` gives larger, bolder chips (a common choice for a prominent "hero" tech stack); the default `flat` style is smaller and more minimal. Pick one and use it consistently across the group — don't mix styles.
 
-**Group by layer once the list gets long or spans distinct layers.** A handful of badges for one layer (e.g. just frontend) reads fine as a single flat row. Once the confirmed stack spans clearly distinct layers — frontend, backend, database, infra/tooling — dumping them all in one undifferentiated row makes the reader do the categorization work themselves. Group with sub-labels instead:
+**Small, single-layer stack → a flat row.** A handful of badges for one layer (e.g. just frontend) reads fine as one markdown line: `![React](...) ![Next.js](...)`.
 
-```markdown
-**Frontend:** ![React](...) ![Next.js](...)
-**Backend:** ![NestJS](...) ![Node.js](...)
-**Database:** ![PostgreSQL](...) ![Redis](...) ![Prisma](...)
-**Infra:** ![Docker](...) ![Turborepo](...) ![pnpm](...)
+**Larger stack spanning distinct layers (frontend/backend/database/infra) → an HTML table, not stacked markdown lines.** This is the more robust choice, not just the prettier one. GitHub Flavored Markdown treats a blank line as a paragraph break, and a badge group built as several separate markdown lines is fragile: accidentally leaving a blank line between a label and its badges (easy to do when badges get added one at a time during self-verification) turns each into its own paragraph with GitHub's default spacing — a column of isolated badges with large vertical gaps, not a row. An HTML table sidesteps the whole failure mode structurally: each category's label and badges live inside one `<td>`, so there's no paragraph-boundary to accidentally break.
+
+```html
+<table>
+  <tr><td><strong>Language</strong></td><td>
+    <img src="https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white">
+  </td></tr>
+  <tr><td><strong>Frontend</strong></td><td>
+    <img src="https://img.shields.io/badge/Next.js-000000?logo=nextdotjs&logoColor=white">
+    <img src="https://img.shields.io/badge/React-61DAFB?logo=react&logoColor=black">
+  </td></tr>
+  <tr><td><strong>Backend</strong></td><td>
+    <img src="https://img.shields.io/badge/NestJS-E0234E?logo=nestjs&logoColor=white">
+  </td></tr>
+</table>
 ```
 
-A rough trigger: more than ~8 badges, or badges spanning 3+ layers — group them. Fewer than that, or all one layer, a flat row is simpler and fine.
+Wrap the whole table in `<div align="center">...</div>` for a centered look right under the title, or leave it left-aligned — both are common in real READMEs; it's a style choice, not a correctness one.
+
+A rough trigger for which layout to use: more than ~8 badges, or badges spanning 3+ layers → table. Fewer than that, or all one layer → flat row.
+
+**If you use the flat-row-per-category markdown approach anyway** (simpler source, fine for a short list), the same fragility applies: each group must be one single physical line in the source, no blank line anywhere inside it.
+
+```markdown
+<!-- WRONG — a blank line between each badge turns every one into its own paragraph -->
+**Frontend:**
+
+![React](...)
+
+![Next.js](...)
+
+<!-- RIGHT — one line, single spaces, nothing else in between -->
+**Frontend:** ![React](...) ![Next.js](...)
+```
+
+Add this to the self-verification pass: after assembling (or incrementally editing) a badge group, re-read the exact lines around it and confirm there's no blank line inside the group. If the badges were added one at a time, this is the step most likely to have been skipped.
 
 ## Table of contents
 
@@ -223,8 +251,9 @@ Run this before showing the draft, not after — these are the checks a baseline
 2. **External URLs and badges are live.** Every shields.io badge, external link, and referenced workflow/file URL should actually resolve (a quick `curl -Is <url> | head -1` per unique URL is enough — check for a 2xx/3xx status).
 3. **Code examples run.** Any Usage/Install code block should be at minimum syntax-valid and, where practical, actually executed against the repo to confirm it doesn't error.
 4. **Code output matches what's documented**, where feasible to check — if the draft claims a command prints something specific, verify that's what it actually prints rather than inventing plausible-looking output.
+5. **Badge/icon groups render as a row, not a column.** If using a flat markdown line per group, re-read the raw source and confirm there's no blank line splitting it into separate paragraphs. If using an HTML table (see Tech stack badges above), confirm each group's badges actually landed inside the same `<td>` as its label. Either way, this is easy to break by accident when badges are added one at a time — check it explicitly rather than assuming the last edit landed correctly.
 
-Fix anything that fails before moving on. Don't ship a draft with unresolved links because "it's probably fine."
+Fix anything that fails before moving on. Don't ship a draft with unresolved links because "it's probably fine," and don't ship a badge row you haven't re-read as rendered source.
 
 ## Completeness gate
 
@@ -244,3 +273,4 @@ GitHub defines a standard set of ["community health files"](https://docs.github.
 - Presenting a draft without checking its links/badges/code examples actually work
 - Inferring a "why" rationale from sparse commit messages instead of leaving it out when nothing explicit was stated
 - Auto-creating CONTRIBUTING.md, issue templates, or other community health files that weren't asked for
+- Building a multi-badge group as separate markdown lines with a stray blank line inside it — renders as a column of isolated, widely-spaced badges instead of a row; use an HTML table for anything beyond a short single-line group
